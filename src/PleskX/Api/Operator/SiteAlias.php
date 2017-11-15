@@ -25,8 +25,10 @@ class SiteAlias extends \PleskX\Api\Operator
             }
         }
 
-        $info->addChild('site-id', $properties['site-id']);
-        $info->addChild('name', $properties['name']);
+        foreach($properties as $key => $val)
+        {
+            $info->addChild($key,$val);
+        }
 
         $response = $this->_client->request($packet);
         return new Struct\Info($response);
