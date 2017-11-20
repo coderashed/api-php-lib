@@ -163,7 +163,7 @@ class Client
             ? call_user_func($this->_verifyResponseCallback, $xml)
             : $this->_verifyResponse($xml);
 
-        return (self::RESPONSE_FULL == $mode) ? $xml : $xml->xpath('//result')[0];
+        return (self::RESPONSE_FULL == $mode) ? $xml : $xml->xpath('//result');
     }
 
     /**
@@ -200,7 +200,6 @@ class Client
         }
 
         curl_close($curl);
-
         $xml = new XmlResponse($result);
         return $xml;
     }
