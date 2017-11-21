@@ -44,11 +44,9 @@ class SiteAlias extends \PleskX\Api\Operator
 
         $filter = $get->addChild('filter');
         $filter->addChild('site-id',$site_id);
-        $response = $this->_client->request($packet);
+        $response = $this->_client->request($packet,$this->_client::RESPONSE_FULL);
 
         return new Struct\Info($response);
-        //$packet->saveXML('/var/www/vagrant/ataama_development/application/logs/ataama/development/portal/xml');
-        return $response;
     }
 
     public function delete($site_id)

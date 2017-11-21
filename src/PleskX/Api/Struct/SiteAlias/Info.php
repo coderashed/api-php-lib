@@ -20,11 +20,11 @@ class Info extends \PleskX\Api\Struct implements \Iterator
         $json = json_encode($apiResponse);
         $responses = json_decode($json);
 
-        if(array_key_exists(0,$responses)) {
-            foreach ($responses as $response) {
+        if(isset($responses->{'site-alias'}->get->result) && count($responses->{'site-alias'}->get->result) > 1) {
+            foreach ($responses->{'site-alias'}->get->result as $response) {
                 if(isset($response->info)) {
                     $this->array[] = array(
-                        'site-name' => $response->info->name,
+                        'name' => $response->info->name,
                         'ascii-name' => $response->info->{'ascii-name'}
                     );
                 }
