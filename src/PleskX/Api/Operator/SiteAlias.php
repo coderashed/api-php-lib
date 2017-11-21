@@ -51,4 +51,17 @@ class SiteAlias extends \PleskX\Api\Operator
         return $response;
     }
 
+    public function delete($site_id)
+    {
+        $packet = $this->_client->getPacket();
+
+        $delete = $packet->addChild($this->_wrapperTag)->addChild('delete');
+
+        $filter = $delete->addChild('filter');
+        $filter->addChild('site-id',$site_id);
+        $response = $this->_client->request($packet);
+
+        return new Struct\Info($response);
+    }
+
 }

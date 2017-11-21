@@ -6,6 +6,9 @@ namespace PleskX\Api\Struct\SiteAlias;
 class Info extends \PleskX\Api\Struct implements \Iterator
 {
 
+    public $id;
+    public $status;
+
     public $site_id;
 
     private $array = array();
@@ -17,13 +20,21 @@ class Info extends \PleskX\Api\Struct implements \Iterator
         $json = json_encode($apiResponse);
         $responses = json_decode($json);
 
-        $this->site_id = $responses[0]->id;
-
-        foreach($responses as $response) {
-            $this->array[] = array(
-                'site-name' => $response->info->name,
-                'ascii-name' => $response->info->{'ascii-name'}
-                );
+        if(array_key_exists(0,$responses)) {
+            foreach ($responses as $response) {
+                if(isset($response->info)) {
+                    $this->array[] = array(
+                        'site-name' => $response->info->name,
+                        'ascii-name' => $response->info->{'ascii-name'}
+                    );
+                }
+            }
+        }
+        else {
+            $this->_initScalarProperties($apiResponse, [
+                'id',
+                'status'
+            ]);
         }
     }
 
@@ -39,11 +50,18 @@ class Info extends \PleskX\Api\Struct implements \Iterator
         return $this->position;
     }
 
-    public function next() {
+    public function next()
+    {
         ++$this->position;
     }
 
-    public function valid() {
+    public function valid()
+    {
         return isset($this->array[$this->position]);
+    }
+
+    public function name()
+    {
+        return $this->array[$this->position]['site-name'];
     }
 }
