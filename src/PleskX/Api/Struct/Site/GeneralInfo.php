@@ -6,6 +6,9 @@ namespace PleskX\Api\Struct\Site;
 class GeneralInfo extends \PleskX\Api\Struct
 {
     /** @var string */
+    public $id;
+
+    /** @var string */
     public $name;
 
     /** @var string */
@@ -17,6 +20,8 @@ class GeneralInfo extends \PleskX\Api\Struct
     /** @var string */
     public $description;
 
+
+
     public function __construct($apiResponse)
     {
         $this->_initScalarProperties($apiResponse, [
@@ -25,5 +30,10 @@ class GeneralInfo extends \PleskX\Api\Struct
             'guid',
             'description',
         ]);
+
+        $encoded = json_encode($apiResponse);
+        $decoded = json_decode($encoded);
+
+        $this->id = $decoded->{'webspace-id'};
     }
 }

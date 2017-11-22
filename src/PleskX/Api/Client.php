@@ -200,7 +200,6 @@ class Client
         }
 
         curl_close($curl);
-
         $xml = new XmlResponse($result);
         return $xml;
     }

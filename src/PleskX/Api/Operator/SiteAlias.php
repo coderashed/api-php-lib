@@ -7,6 +7,8 @@ use PleskX\Api\Struct\SiteAlias as Struct;
 
 class SiteAlias extends \PleskX\Api\Operator
 {
+
+
     /**
      * @param array $properties
      * @param array $preferences
@@ -25,10 +27,38 @@ class SiteAlias extends \PleskX\Api\Operator
             }
         }
 
-        $info->addChild('site-id', $properties['site-id']);
-        $info->addChild('name', $properties['name']);
+        foreach($properties as $key => $val)
+        {
+            $info->addChild($key,$val);
+        }
 
         $response = $this->_client->request($packet);
+        return new Struct\Info($response);
+    }
+
+    public function get($site_id)
+    {
+        $packet = $this->_client->getPacket();
+
+        $get = $packet->addChild($this->_wrapperTag)->addChild('get');
+
+        $filter = $get->addChild('filter');
+        $filter->addChild('site-id',$site_id);
+        $response = $this->_client->request($packet,$this->_client::RESPONSE_FULL);
+
+        return new Struct\Info($response);
+    }
+
+    public function delete($site_id)
+    {
+        $packet = $this->_client->getPacket();
+
+        $delete = $packet->addChild($this->_wrapperTag)->addChild('delete');
+
+        $filter = $delete->addChild('filter');
+        $filter->addChild('site-id',$site_id);
+        $response = $this->_client->request($packet);
+
         return new Struct\Info($response);
     }
 

@@ -31,8 +31,14 @@ abstract class Struct
 
             $reflectionProperty = new \ReflectionProperty($this, $classPropertyName);
             $docBlock = $reflectionProperty->getDocComment();
-            $propertyType = preg_replace('/^.+ @var ([a-z]+) .+$/', '\1', $docBlock);
 
+            /* There seems to be a bug in the api when it encounters a docBlock with a strlen of 0.
+             * Continue if so.
+             */
+            if(strlen($docBlock) == 0)
+                continue;
+
+            $propertyType = preg_replace('/^.+ @var ([a-z]+) .+$/', '\1', $docBlock);
             if ('string' == $propertyType) {
                 $value = (string)$value;
             } else if ('integer' == $propertyType) {
