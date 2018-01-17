@@ -48,7 +48,9 @@ class Mail extends \PleskX\Api\Operator
 
         $forwards = [];
         foreach ($response->mail->get_info->result as $forwardInfo) {
-            $forwards[] = new Struct\Forwards($forwardInfo->mailname);
+            if (isset($forwardInfo->mailname)) {
+                $forwards[] = new Struct\Forwards($forwardInfo->mailname);
+            }
         }
 
         return $forwards;
