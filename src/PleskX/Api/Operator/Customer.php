@@ -24,6 +24,22 @@ class Customer extends \PleskX\Api\Operator
         return new Struct\Info($response);
     }
 
+    public function set_status($plesk_customer_id,$status)
+    {
+        $packet = $this->_client->getPacket();
+
+        $get = $packet->addChild($this->_wrapperTag)->addChild('set');
+
+        $filter = $get->addChild('filter');
+        $filter->addChild('id',$plesk_customer_id);
+        $values = $get->addChild('values');
+        $gen_info = $values->addChild('gen_info');
+        $gen_info->addChild('status',$status);
+        $response = $this->_client->request($packet,$this->_client::RESPONSE_FULL);
+
+        return new Struct\Info($response);
+    }
+
     /**
      * @param string $field
      * @param integer|string $value
